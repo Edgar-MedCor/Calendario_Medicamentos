@@ -61,7 +61,7 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/listamedicamentos", (peticion, respuesta) => {
-  const sql = "SELECT * FROM calendario";
+  const sql = "SELECT * FROM medicinas";
   db.query(sql, (error, resultado, campos) => {
     if (error) {
       return respuesta.json({ Estatus: "Error en la consulta sql" });
