@@ -1,78 +1,74 @@
 import React from "react";
+import { FaFacebookSquare, FaTwitterSquare, FaInstagram } from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer
-      className="text-center text-white"
-      style={{ backgroundColor: "#0f172a" }}
-    >
-      <div className="container p-4">
-        <section>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:mb-12">
-            {/* Col 1 */}
-            <div className="col md:w-6/12 md:text-left text-center">
-              <p className="mb-3 text-white text-lg">
-                <a className="mb-6 font-semibold" href="#">
-                  Acme Company
+    <footer className="bg-gray-700 text-white py-12">
+      <div className="container mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="col-span-1 md:col-span-2 text-center">
+            <h2 className="text-2xl font-bold text-white mb-4">Meditime</h2>
+            <p className="text-gray-300">
+              Dedicados al servicio medico!
+            </p>
+          </div>
+          <div className="col-span-1 md:col-span-1">
+            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul className="text-gray-300">
+              <li>
+                <a href="#" className="hover:text-indigo-500">
+                  Home
                 </a>
-              </p>
-              <div>
-                <p className="text-light">
-                  We help you build amazing landing pages that convert.
-                </p>
-              </div>
-            </div>
-
-            {/* Col 2 */}
-            <div className="col md:w-3/12 text-center mb-6 md:mb-0 flex flex-col gap-y-2">
-              <p className="text-light font-semibold mb-3">Product</p>
-              <a className="block text-white" href="#">
-                Sign Up
+              </li>
+              <li>
+                <a href="#" className="hover:text-indigo-500">
+                  Services
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-indigo-500">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-indigo-500">
+                  Contact
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="col-span-1 md:col-span-1">
+            <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
+            <div className="flex items-center justify-center space-x-4">
+              <a
+                href="#"
+                title="Facebook"
+                className="text-gray-300 hover:text-indigo-500"
+              >
+                <FaFacebookSquare size={32} />
               </a>
-              <a className="block text-white" href="#">
-                Pricing
+              <a
+                href="#"
+                title="Twitter"
+                className="text-gray-300 hover:text-indigo-500"
+              >
+                <FaTwitterSquare size={32} />
               </a>
-              <a className="block text-white" href="#">
-                F.A.Q.
-              </a>
-            </div>
-            {/* Col 3 */}
-            <div className="col md:w-3/12 text-center mb-6 md:mb-0 flex flex-col gap-y-2">
-              <p className="text-light font-semibold mb-3">Company</p>
-              <a className="block text-white" href="#">
-                Terms
-              </a>
-              <a className="block text-white" href="#">
-                Privacy
-              </a>
-              <a className="block text-white" href="#">
-                Contact Us
-              </a>
-            </div>
-            {/* Col 4 */}
-            <div className="col md:w-3/12 text-center md:mb-0 flex flex-col gap-y-2">
-              <p className="text-light font-semibold mb-3">Connect With Us</p>
-              <a className="block text-white" href="#" title="Facebook">
-                <i className="fab fa-facebook-square text-3xl pr-2"></i>
-              </a>
-              <a className="block text-white" href="#" title="Twitter">
-                <i className="fab fa-twitter-square text-3xl pr-2"></i>
-              </a>
-              <a className="block text-white" href="#" title="Instagram">
-                <i className="fab fa-instagram text-3xl pr-2"></i>
+              <a
+                href="#"
+                title="Instagram"
+                className="text-gray-300 hover:text-indigo-500"
+              >
+                <FaInstagram size={32} />
               </a>
             </div>
           </div>
-        </section>
+        </div>
       </div>
-      <div
-        className="text-center p-3"
-        style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
-      >
-        &copy; 2020 Copyright:
-        <a className="text-white" href="https://mdbootstrap.com/">
-          MDBootstrap.com
-        </a>
+      <div className="bg-gray-800 py-4 text-center">
+        <div className="container mx-auto text-gray-300">
+          &copy; {new Date().getFullYear()} Meditime. All rights reserved.
+        </div>
       </div>
     </footer>
   );
