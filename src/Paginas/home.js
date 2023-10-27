@@ -1,8 +1,11 @@
 import React from "react";
 import Doctores from "./Doctores.png";
-
+import Header from '../Componentes/header'
+import Footer from '../Componentes/footer'
 const Home = () => {
   return (
+    <>
+   <Header />
     <div className="bg-purple-100 min-h-screen flex flex-col items-center justify-center">
       <div className="flex flex-col items-center justify-center md:flex-row">
         <img
@@ -30,6 +33,8 @@ const Home = () => {
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 
