@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 function Signup() {
   const containerStyle = {
@@ -8,7 +9,7 @@ function Signup() {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    backgroundColor: '#f0e7f2', // Fondo morado pastel
+    backgroundColor: '#f0e7f2',
   };
 
   const cardStyle = {
@@ -16,13 +17,13 @@ function Signup() {
     padding: '20px',
     borderRadius: '10px',
     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-    backgroundColor: 'white', // Fondo blanco
+    backgroundColor: 'white',
   };
 
   const titleStyle = {
     textAlign: 'center',
     marginBottom: '20px',
-    color: '#6a5acd', // Color de texto morado pastel
+    color: '#6a5acd',
   };
 
   const inputStyle = {
@@ -31,44 +32,33 @@ function Signup() {
     padding: '10px',
     borderRadius: '5px',
     border: '1px solid #ccc',
-    
   };
 
   const buttonStyle = {
     width: '100%',
     marginBottom: '10px',
-    textDecoration: 'none',
-    backgroundColor: '#6a5acd', // Color de fondo morado pastel
-    color: 'white', // Color de texto blanco
+    backgroundColor: '#6a5acd',
+    color: 'white',
     padding: '10px',
     borderRadius: '5px',
-   
   };
 
   const alertStyle = {
-    backgroundColor: '#ff6b6b', // Fondo rojo claro para la alerta
-    color: 'white', // Texto blanco para la alerta
+    backgroundColor: '#ff6b6b',
+    color: 'white',
     padding: '10px',
     marginBottom: '15px',
     borderRadius: '5px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    animation: 'fadeIn 0.5s',
   };
 
-  const errorIconStyle = {
-    marginRight: '10px',
-    fontSize: '1.5rem',
-  };
+ 
 
   const bottomMessageStyle = {
     marginBottom: '20px',
     textAlign: 'center',
-    marginTop: '10px'
+    marginTop: '10px',
   };
 
- 
   const [values, setValues] = useState({
     email: '',
     name: '',
@@ -77,6 +67,7 @@ function Signup() {
 
   const navigate = useNavigate();
   const [alertMessage, setAlertMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const [errorMessages, setErrorMessages] = useState({
     email: '',
@@ -124,7 +115,7 @@ function Signup() {
     axios.post('http://localhost:3006/signup', values)
       .then((res) => {
         if (res.data === 'Success') {
-          navigate('/');
+          navigate('/Login');
         } else if (res.data === 'EmailExists') {
           setAlertMessage('Ya existe una cuenta asociada a este correo electrónico. Por favor, ingresa un correo diferente.');
         } else {
@@ -144,14 +135,7 @@ function Signup() {
 
         {alertMessage && (
           <div style={alertStyle}>
-            <i className="fas fa-exclamation-circle" style={errorIconStyle}></i>
             <span>{alertMessage}</span>
-            <button
-              onClick={() => setAlertMessage('')}
-              style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
-            >
-              <i className="fas fa-times"></i>
-            </button>
           </div>
         )}
 
@@ -189,15 +173,24 @@ function Signup() {
           </div>
           <div>
             <label htmlFor='password'>Contraseña</label>
-            <input
-              type='password'
-              id='password'
-              placeholder='Ingresa tu Contraseña'
-              name='password'
-              value={values.password}
-              onChange={handleInput}
-              style={inputStyle}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                id='password'
+                placeholder='Ingresa tu Contraseña'
+                name='password'
+                value={values.password}
+                onChange={handleInput}
+                style={inputStyle}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ position: 'absolute', top: '50%', right: '10px', transform: 'translateY(-50%)' }}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
             {errorMessages.password && (
               <p style={{ color: 'red' }}>{errorMessages.password}</p>
             )}
@@ -207,7 +200,6 @@ function Signup() {
           </button>
         </form>
         <div style={bottomMessageStyle}>
-          
           <Link to='/Login' className='btn btn-outline-primary' style={buttonStyle}>
             Iniciar Sesión
           </Link>

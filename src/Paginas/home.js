@@ -30,7 +30,13 @@ const Home = () => {
               className="bg-purple-800 text-white py-3 px-6 rounded-full inline-block font-semibold hover:bg-purple-700 transition-transform transform hover:scale-105"
             >
               Ir al calendario
+            </a><a
+              href="/Pastillas"
+              className="bg-purple-800 text-white py-3 px-6 rounded-full inline-block font-semibold hover:bg-purple-700 transition-transform transform hover:scale-105"
+            >
+              Lista de pastillas 
             </a>
+
           </div>
         </div>
       </div>

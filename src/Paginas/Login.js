@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import validateLogin from '../Componentes/LoginValidation';
 import axios from 'axios';
+import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
 
 function Login() {
   const containerStyle = {
@@ -9,7 +10,7 @@ function Login() {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    backgroundColor: '#f0e7f2', // Fondo morado pastel
+    backgroundColor: '#f0e7f2',
   };
 
   const cardStyle = {
@@ -17,13 +18,13 @@ function Login() {
     padding: '20px',
     borderRadius: '10px',
     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-    backgroundColor: 'white', // Fondo blanco
+    backgroundColor: 'white',
   };
 
   const titleStyle = {
     textAlign: 'center',
     marginBottom: '20px',
-    color: '#6a5acd', // Color de texto morado pastel
+    color: '#6a5acd',
   };
 
   const inputStyle = {
@@ -37,9 +38,8 @@ function Login() {
   const buttonStyle = {
     width: '100%',
     marginBottom: '10px',
-    textDecoration: 'none',
-    backgroundColor: '#6a5acd', // Color de fondo morado pastel
-    color: 'white', // Color de texto blanco
+    backgroundColor: '#6a5acd',
+    color: 'white',
     padding: '10px',
     borderRadius: '5px',
   };
@@ -63,10 +63,17 @@ function Login() {
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleInput = (event) => {
     setValues((prev) => ({ ...prev, [event.target.name]: event.target.value }));
   };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  const passwordType = showPassword ? 'text' : 'password';
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -74,18 +81,20 @@ function Login() {
     setErrors(validationErrors);
 
     if (!validationErrors.email && !validationErrors.password) {
-      axios
-        .post('http://localhost:3006/login', values)
-        .then((res) => {
-          if (res.data === 'Success') {
-            navigate('/Home');
-          } else {
-            alert('Usuario y contraseña incorrectos');
-          }
-        })
-        .catch((err) => console.log(err));
+      axios.post('http://localhost:3006/login', values)
+      .then((res) => {
+        console.log(res.data); // Check the response in the console
+        if (res.data.status === 'Success') {
+          localStorage.setItem('userId', res.data.userId);
+          navigate('/Calendario');
+        } else {
+          alert('Usuario y contraseña incorrectos');
+        }
+      })
+      .catch((err) => console.log(err));
     }
   };
+
 
   return (
     <div style={containerStyle}>
@@ -106,22 +115,30 @@ function Login() {
           </div>
           <div>
             <label htmlFor='password'>Contraseña</label>
-            <input
-              type='password'
-              id='password'
-              placeholder='Ingresa tu Contraseña'
-              name='password'
-              onChange={handleInput}
-              style={inputStyle}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                type={passwordType}
+                id='password'
+                placeholder='Ingresa tu Contraseña'
+                name='password'
+                onChange={handleInput}
+                style={inputStyle}
+              />
+              <button
+                type='button'
+                onClick={togglePasswordVisibility}
+                style={{ position: 'absolute', top: '50%', right: '10px', transform: 'translateY(-50%)' }}
+              >
+                {showPassword ? <RiEyeOffFill /> : <RiEyeFill />}
+              </button>
+            </div>
             {errors.password && <span style={errorStyle}>{errors.password}</span>}
           </div>
-          <button type='submit' className='btn btn-success' style={buttonStyle}>
+          <button type='submit' style={buttonStyle}>
             Iniciar Sesión
           </button>
         </form>
         <div style={bottomMessageStyle}>
-         
           <Link to='/Signup' className='btn btn-outline-primary' style={buttonStyle}>
             Crear Cuenta
           </Link>
