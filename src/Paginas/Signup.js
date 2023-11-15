@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
+import validateSignup from '../Componentes/SignupValidation'
 function Signup() {
   const containerStyle = {
     display: 'flex',
@@ -107,10 +107,9 @@ function Signup() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    if (!validateFields()) {
-      return;
-    }
+    const validationErrors = validateSignup(values);
+    setErrorMessages(validationErrors);
+    
 
     axios.post('http://localhost:3006/signup', values)
       .then((res) => {

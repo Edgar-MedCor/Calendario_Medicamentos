@@ -83,12 +83,12 @@ app.post("/addmedicine", (req, res) => {
     dosis,
     tiempo,
     comentarios,
-    cantidad_dosis
+    dias_de_toma
   } = req.body;
 
-  const insertMedicineQuery = "INSERT INTO medicinas (id_usuario, medicamento, dosis, tiempo, comentarios, cantidad_dosis) VALUES (?, ?, ?, ?, ?, ?)";
+  const insertMedicineQuery = "INSERT INTO medicinas (id_usuario, medicamento, dosis, tiempo, comentarios, dias_de_toma) VALUES (?, ?, ?, ?, ?, ?)";
 
-  db.query(insertMedicineQuery, [id_usuario, medicamento, dosis, tiempo, comentarios, cantidad_dosis], (err, result) => {
+  db.query(insertMedicineQuery, [id_usuario, medicamento, dosis, tiempo, comentarios, dias_de_toma], (err, result) => {
     if (err) {
       return res.json({ status: "Error", message: "Failed to add medicine" });
     }
@@ -104,12 +104,12 @@ app.put("/editmedicine/:medicineId", (req, res) => {
     dosis,
     tiempo,
     comentarios,
-    cantidad_dosis
+    dias_de_toma
   } = req.body;
 
-  const updateMedicineQuery = "UPDATE medicinas SET medicamento = ?, dosis = ?, tiempo = ?, comentarios = ?, cantidad_dosis = ? WHERE id = ?";
+  const updateMedicineQuery = "UPDATE medicinas SET medicamento = ?, dosis = ?, tiempo = ?, comentarios = ?, dias_de_toma = ? WHERE id = ?";
 
-  db.query(updateMedicineQuery, [medicamento, dosis, tiempo, comentarios, cantidad_dosis, medicineId], (err, result) => {
+  db.query(updateMedicineQuery, [medicamento, dosis, tiempo, comentarios, dias_de_toma, medicineId], (err, result) => {
     if (err) {
       return res.json({ status: "Error", message: "Failed to edit medicine" });
     }
@@ -212,9 +212,9 @@ app.post('/addpilltocalendar', (req, res) => {
   const horaPrimeraToma = new Date(now.getTime() + pastilla.intervalo * 60 * 60 * 1000);
 
   // Inserta la pastilla en el calendario
-  const insertPillToCalendarQuery = 'INSERT INTO medicinas (id_usuario, medicamento, dosis, intervalo, comentarios, cantidad_dosis, nextDoseTime) VALUES (?, ?, ?, ?, ?, ?, ?)';
-  
-  db.query(insertPillToCalendarQuery, [id_usuario, pastilla.nombre, pastilla.dosis, pastilla.intervalo, pastilla.comentarios, pastilla.cantidad_dosis, horaPrimeraToma], (err, result) => {
+  const insertPillToCalendarQuery = 'INSERT INTO medicinas (id_usuario, medicamento, dosis, intervalo, comentarios, dias_de_toma, nextDoseTime) VALUES (?, ?, ?, ?, ?, ?, ?)';
+
+  db.query(insertPillToCalendarQuery, [id_usuario, pastilla.nombre, pastilla.dosis, pastilla.intervalo, pastilla.comentarios, pastilla.dias_de_toma, horaPrimeraToma], (err, result) => {
     if (err) {
       return res.json({ status: 'Error', message: 'Failed to add pill to calendar' });
     }
@@ -222,6 +222,7 @@ app.post('/addpilltocalendar', (req, res) => {
     res.json({ status: 'Success', message: 'Pill added to the calendar' });
   });
 });
+
 
 
 

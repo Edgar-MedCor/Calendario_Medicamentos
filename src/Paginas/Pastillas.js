@@ -74,7 +74,7 @@ function Pastillas() {
             unidad,
             intervalo: intervaloHoras,
             comentarios,
-            cantidad_dosis: cantidadDosis,
+            dias_de_toma: cantidadDosis,
           },
         }
       );
@@ -102,7 +102,7 @@ function Pastillas() {
           unidad,
           intervalo: intervaloHoras,
           comentarios,
-          cantidad_dosis: cantidadDosis,
+          dias_de_toma: cantidadDosis,
         }
       );
 
@@ -270,7 +270,7 @@ function Pastillas() {
             >
               <option value="oral">Oral</option>
               <option value="inyeccion">Inyección</option>
-              {/* Agrega más opciones aquí */}
+            
             </select>
             <label htmlFor="comentarios">Comentarios:</label>
             <input
@@ -280,7 +280,7 @@ function Pastillas() {
               value={comentarios}
               onChange={(e) => setComentarios(e.target.value)}
             />
-            <label htmlFor="cantidadDosis">Número de veces a tomar:</label>
+            <label htmlFor="cantidadDosis">Número de dias con el tratamiento:</label>
             <input
               type="number"
               id="cantidadDosis"
@@ -349,7 +349,6 @@ function Pastillas() {
             >
               <option value="oral">Oral</option>
               <option value="inyeccion">Inyección</option>
-              {/* Agrega más opciones aquí */}
             </select>
             <label htmlFor="comentarios">Comentarios:</label>
             <input
@@ -359,7 +358,9 @@ function Pastillas() {
               value={comentarios}
               onChange={(e) => setComentarios(e.target.value)}
             />
-            <label htmlFor="cantidadDosis">Número de dias con el tratamiento:</label>
+            <label htmlFor="cantidadDosis">
+              Número de días con el tratamiento:
+            </label>
             <input
               type="number"
               id="cantidadDosis"
