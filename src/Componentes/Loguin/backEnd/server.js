@@ -203,18 +203,17 @@ app.delete('/deletepill/:pillId', (req, res) => {
   });
 });
 
-
 app.post('/addpilltocalendar', (req, res) => {
   const { id_usuario, pastilla } = req.body;
 
-  // Calcula la hora de la primera toma (por ejemplo, usando la hora actual)
+  // Calcula la hora de la próxima toma (hora actual)
   const now = new Date();
-  const horaPrimeraToma = new Date(now.getTime() + pastilla.intervalo * 60 * 60 * 1000);
+  const nextDoseTime = new Date(now);
 
-  // Inserta la pastilla en el calendario
+  // Inserta la pastilla en el calendario y almacena la información
   const insertPillToCalendarQuery = 'INSERT INTO medicinas (id_usuario, medicamento, dosis, intervalo, comentarios, dias_de_toma, nextDoseTime) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
-  db.query(insertPillToCalendarQuery, [id_usuario, pastilla.nombre, pastilla.dosis, pastilla.intervalo, pastilla.comentarios, pastilla.dias_de_toma, horaPrimeraToma], (err, result) => {
+  db.query(insertPillToCalendarQuery, [id_usuario, pastilla.nombre, pastilla.dosis, pastilla.intervalo, pastilla.comentarios, pastilla.dias_de_toma, nextDoseTime], (err, result) => {
     if (err) {
       return res.json({ status: 'Error', message: 'Failed to add pill to calendar' });
     }
@@ -222,6 +221,7 @@ app.post('/addpilltocalendar', (req, res) => {
     res.json({ status: 'Success', message: 'Pill added to the calendar' });
   });
 });
+
 
 
 

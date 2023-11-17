@@ -34,6 +34,7 @@ function Calendario() {
         console.log(error);
       }
     };
+    
 
     fetchMedicinas();
 
@@ -62,26 +63,33 @@ function Calendario() {
     try {
       const updatedMedicinas = medicinas.map((medicina) => {
         if (medicina.id === medicineId && medicina.dias_de_toma > 0) {
+          // Obtener la hora de la última toma
           const lastTakenTime = new Date(medicina.nextDoseTime);
-          lastTakenTime.setHours(lastTakenTime.getHours() + medicina.intervalo);
-          medicina.nextDoseTime = lastTakenTime;
+  
+          // Calcular la hora de la próxima toma a partir de la última toma
+          const nextDoseTime = new Date(lastTakenTime.getTime() + medicina.intervalo * 60 * 60 * 1000);
+  
+          // Actualizar la información en el objeto medicina
+          medicina.nextDoseTime = nextDoseTime;
+          medicina.firstDoseTime = medicina.firstDoseTime || lastTakenTime; // Almacena la hora de la primera toma si aún no se ha almacenado
           medicina.dias_de_toma -= 1;
         }
         return medicina;
       });
-
+  
       // Ordenar medicamentos por período de toma
       updatedMedicinas.sort((a, b) => {
         const periodA = calculatePeriod(new Date(a.nextDoseTime).getHours());
         const periodB = calculatePeriod(new Date(b.nextDoseTime).getHours());
         return periodA.localeCompare(periodB);
       });
-
+  
       setMedicinas(updatedMedicinas);
     } catch (error) {
       console.error("Error al tomar el medicamento", error);
     }
   };
+  
 
   function formatTime(timeString) {
     if (timeString === "No programada") {
@@ -210,11 +218,11 @@ function Calendario() {
                         index % 2 === 0 ? "bg-white" : "bg-white"
                       }`}
                     >
-                      <div className="absolute mt-7 ml-5">{formatTime(medicinas.nextDoseTime)}</div>
-                      <div className=" bg-green-300 h-5 " />
-                      <div className=" bg-green-200 h-5" />
-                      <div className=" bg-green-300 h-5" />
-                      <div className=" bg-green-200 h-5" />
+                      <div className="absolute mt-7 ml-1 w-40 truncate">{formatTime(medicinas.nextDoseTime)}</div>
+                      <div className=" bg-green-300 h-5 w-40" />
+                      <div className=" bg-green-200 h-5 w-40" />
+                      <div className=" bg-green-300 h-5 w-40" />
+                      <div className=" bg-green-200 h-5 w-40" />
                     </td>
                     <td
                       className={`px-4 md:px-6 py-4 md:py-3 whitespace-nowrap overflow-hidden sm:w-1/5 md:w-1/6 lg:w-1/5 ${
@@ -240,13 +248,15 @@ function Calendario() {
                     </td>
                     <td className="px-4 md:px-6 py-3 whitespace-nowrap space-x-2">
                       {!medicinas.hasTaken && medicinas.dias_de_toma > 0 && (
-                        <button
-                          onClick={() => handleTakeMedicine(medicinas.id)}
-                          className="text-green-600 hover:text-green-900"
-                          title="Tomar"
-                        >
-                          Tomar
-                        </button>
+                       <button
+                       onClick={() => handleTakeMedicine(medicinas.id)}
+                       className={`text-green-600 hover:text-green-900 ${currentDateTime < new Date(medicinas.nextDoseTime) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                       title="Tomar"
+                       disabled={currentDateTime < new Date(medicinas.nextDoseTime)}
+                     >
+                       Tomar
+                     </button>
+                     
                       )}
                       <button
                         onClick={() => handleDelete(medicinas.id)}
